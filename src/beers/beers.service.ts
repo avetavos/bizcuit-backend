@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { AxiosError } from 'axios';
 import { Model } from 'mongoose';
@@ -84,5 +84,13 @@ export class BeersService {
       ...payload,
     });
     return await newBeer.save();
+  }
+
+  async getBeerById(id: string) {
+    const beer = await this.beerModel.findById(id).exec();
+    if (!beer) {
+      throw new NotFoundException('Beer not found!');
+    }
+    return beer;
   }
 }

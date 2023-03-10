@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BeersService } from './beers.service';
 import { CreateBeerDto } from './dtos/create-beer.dto';
 
@@ -14,5 +14,10 @@ export class BeersController {
   @Get('/random_beer')
   async getBeers() {
     return await this.beersService.getRandomBeer();
+  }
+
+  @Get('/:id')
+  async getBeerById(@Param('id') id: string) {
+    return await this.beersService.getBeerById(id);
   }
 }
